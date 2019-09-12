@@ -4,12 +4,18 @@ const http = require("http");
 const hostname = "127.0.0.1";
 const port = 8000;
 
+let hello = ''
+
 // Create HTTP server 
 const server = http.createServer((req, res) => {
    // Set the response HTTP header with HTTP status and Content type
    res.writeHead(200, {'Content-Type': 'text/plain'});
    // Send the response body "Hello World"
-   res.end('Hello World\n');
+    for (let i = 0; i < 200; i++) {
+        hello+='🧙‍♂️'
+    }
+    
+   res.end(hello);
 });
 
 // Prints a log once the server starts listening
