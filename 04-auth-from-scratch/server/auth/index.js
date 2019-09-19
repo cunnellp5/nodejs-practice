@@ -10,4 +10,11 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/signup', (req, res) => {
+    console.log(req.body)
+    res.json({
+        message: 'Posted to signup!'
+    })
+})
+
 module.exports = router;
