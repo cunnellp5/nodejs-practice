@@ -1,6 +1,10 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 
+const db = require('./../db/connection');
+const users = db.get('users');
+users.createIndex('username', { unique: true });
+
 const router = express.Router();
 
 const schema = Joi.object({
