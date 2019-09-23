@@ -1,5 +1,6 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
+const bcrypt = require('bcryptjs');
 
 const db = require('./../db/connection');
 const users = db.get('users');
@@ -34,8 +35,26 @@ router.post('/signup', (req, res, next) => {
         users.findOne({
             username: req.body.username
         }).then((user) => {
-            // if user is undefined, username is not in db, otherwise duplicate user detected
-            res.json({ user })
+            // if user is undefined, username is not in db, otherwise duplicate user detecte
+            if (user) {
+                // there is already a user in db with username
+                // send error
+                const error = new Error('That username is not unique. Please choose another one.');
+                next(error);
+            } else {
+                // hash password
+                // insert user with hashed password
+                bcrypt.hash(req.body.password, 12).then((hashed) => {
+                    const newUser = {
+                        username: req.body.username,
+                        password: hashed
+                    }
+
+                    users.insert(newUser).then((insertedUser) => {
+                        res.json({insertedUser})
+                    })
+                })
+            }
         })
     } else {
         // send error back to client
