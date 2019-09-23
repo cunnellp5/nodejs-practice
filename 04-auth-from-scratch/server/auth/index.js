@@ -27,10 +27,20 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/signup', (req, res) => {
-    console.log(req.body)
-    const result = schema.validate(req.body)
-    res.json(result)
+router.post('/signup', (req, res, next) => {
+    const result = schema.validate(req.body);
+    if (!result.error) {
+        // make sure user is uniqe
+        users.findOne({
+            username: req.body.username
+        }).then((user) => {
+            // if user is undefined, username is not in db, otherwise duplicate user detected
+            res.json({ user })
+        })
+    } else {
+        // send error back to client
+        next(result.error);
+    }
 })
 
 module.exports = router;
