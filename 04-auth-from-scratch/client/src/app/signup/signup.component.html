@@ -1,4 +1,7 @@
-<form>
+<form 
+    (ngSubmit)="onSubmit()"
+    [formGroup]="signupForm"
+    >
     <div class="form-group">
         <label for="username">Username</label>
         <input 
@@ -7,7 +10,8 @@
             id="username"
             aria-describedby="usernameHelp" 
             placeholder="Enter username"
-            required>
+            required
+            formControlName="email">
         <small 
             id="usernameHelp" 
             class="form-text text-muted">
@@ -25,7 +29,8 @@
                 id="password" 
                 aria-describedby="passwordHelp" 
                 placeholder="Password"
-                required>
+                required
+                formControlName="password">
             <small 
                 id="passwordHelp" 
                 class="form-text text-muted">
@@ -41,7 +46,8 @@
                 id="confirmPassword" 
                 aria-describedby="confirmPasswordHelp" 
                 placeholder="Confirm password"
-                required>
+                required
+                formControlName="confirmPassword">
             <small 
                 id="confirmPasswordHelp" 
                 class="form-text text-muted">
@@ -50,9 +56,15 @@
         </div>
     </div>
 
+    <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+    </div>
+
     <button 
         type="submit" 
-        class="btn btn-primary">
+        class="btn btn-primary"
+        >
         Submit
     </button>
+    <!-- [disabled]="signupForm.invalid" -->
 </form>
