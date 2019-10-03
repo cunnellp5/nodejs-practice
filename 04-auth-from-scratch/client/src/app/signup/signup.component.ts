@@ -41,6 +41,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMsg = '';
     const formData = {
       username: this.signupForm.controls['username'].value,
       password: this.signupForm.controls['password'].value
@@ -57,13 +58,13 @@ export class SignupComponent implements OnInit {
         return res.json();
       } else {
         res.json().then((error) => {
+          this.errorMsg = error.message;
           throw new Error(error.message);
         })
       }
     }).then((user) => {
       console.log(user, 'user created')
     }).catch((error) => {
-      console.log(error, 'hell**********************************************o');
       this.errorMsg = error.message;
     })
   }
