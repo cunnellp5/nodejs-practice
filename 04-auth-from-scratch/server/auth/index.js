@@ -40,6 +40,7 @@ router.post('/signup', (req, res, next) => {
                 // there is already a user in db with username
                 // send error
                 const error = new Error('That username is not unique. Please choose another one.');
+                res.status(409);
                 next(error);
             } else {
                 // hash password
@@ -59,6 +60,7 @@ router.post('/signup', (req, res, next) => {
         })
     } else {
         // send error back to client
+        res.status(422);
         next(result.error);
     }
 })
