@@ -5,19 +5,29 @@
     <div class="form-group">
         <label for="username">Username</label>
         <input 
-            type="email" 
+            type="username" 
             class="form-control" 
             id="username"
             aria-describedby="usernameHelp" 
             placeholder="Enter username"
             required
-            formControlName="email">
+            formControlName="username">
         <small 
             id="usernameHelp" 
             class="form-text text-muted">
             Username must be longer than 2 characters and shorter than 30. 
             Username can only contain alphanumeric characters and underscores.
         </small>
+
+        <div *ngIf="signupForm?.controls['username']?.errors?.required && !signupForm?.controls['username']?.pristine" class="alert alert-danger" role="alert">
+            Username is required.
+        </div>
+        <div *ngIf="signupForm?.controls['username']?.errors?.minlength && !signupForm?.controls['username']?.pristine" class="alert alert-danger" role="alert">
+            Minimum length is 2.
+        </div>
+        <div *ngIf="signupForm?.controls['username']?.errors?.maxlength && !signupForm?.controls['username']?.pristine" class="alert alert-danger" role="alert">
+            Maximum length is 30.
+        </div>
     </div>
     
     <div class="form-row">
@@ -36,6 +46,12 @@
                 class="form-text text-muted">
                 Password must be 10 or more characters.
             </small>
+            <div *ngIf="signupForm?.controls['password']?.errors?.required && !signupForm?.controls['password']?.pristine" class="alert alert-danger" role="alert">
+                Password is required.
+            </div>
+            <div *ngIf="signupForm?.controls['password']?.errors?.minlength && !signupForm?.controls['password']?.pristine" class="alert alert-danger" role="alert">
+                Minimum length is 10.
+            </div>
         </div>
     
         <div class="form-group col-md-6">
@@ -53,16 +69,23 @@
                 class="form-text text-muted">
                 Please confirm your password.
             </small>
+            <div *ngIf="signupForm?.controls['confirmPassword']?.errors?.required && !signupForm?.controls['confirmPassword']?.pristine" class="alert alert-danger" role="alert">
+                confirmPassword is required.
+            </div>
+            <div *ngIf="signupForm?.controls['confirmPassword']?.errors?.minlength && !signupForm?.controls['confirmPassword']?.pristine" class="alert alert-danger" role="alert">
+                Minimum length is 10.
+            </div>
         </div>
     </div>
 
-    <div class="alert alert-danger" role="alert">
-        A simple danger alert—check it out!
+    <div *ngIf="signupForm?.errors?.mismatch && !signupForm?.pristine" class="alert alert-danger" role="alert">
+        Passwords need to match!
     </div>
 
     <button 
         type="submit" 
         class="btn btn-primary"
+        [disabled]="signupForm?.invalid"
         >
         Submit
     </button>

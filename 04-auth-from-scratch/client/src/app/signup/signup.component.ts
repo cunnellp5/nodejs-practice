@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, PatternValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -9,10 +9,23 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class SignupComponent implements OnInit {
 
   signupForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    password: new FormControl('', [Validators.minLength(12), Validators.required]),
-    confirmPassword: new FormControl('', [Validators.minLength(12), Validators.required]),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(30),
+      Validators.pattern(/(^[a-zA-Z0-9_]*$)/)
+    ]),
+    password: new FormControl('', [
+      Validators.minLength(10),
+      Validators.required
+    ]),
+    confirmPassword: new FormControl('', [
+      Validators.minLength(10),
+      Validators.required
+    ]),
   }, this.passwordMatchValidator);
+
+  errorMsg = '';
 
   constructor() { }
 
@@ -25,11 +38,9 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.signupForm.get('confirmPassword').errors)
+    this.signupForm.updateValueAndValidity();
+    console.log(this.signupForm, 'air hairs')
     console.log(this.signupForm.getRawValue())
-    // if (this.validUser()) {
-    //   // send data to server
-    // }
   }
 
   // validUser() {
