@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, PatternValidator } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-signup',
@@ -10,6 +12,7 @@ import { FormGroup, FormControl, Validators, PatternValidator } from '@angular/f
 
 export class SignupComponent implements OnInit {
   SIGNUP_URL = 'http://localhost:5000/auth/signup';
+  signingUp: boolean = false
 
   signupForm = new FormGroup({
     username: new FormControl('', [
@@ -30,7 +33,9 @@ export class SignupComponent implements OnInit {
 
   errorMsg = '';
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
 
@@ -46,6 +51,7 @@ export class SignupComponent implements OnInit {
       username: this.signupForm.controls['username'].value,
       password: this.signupForm.controls['password'].value
     }
+    this.signingUp = true;
 
     fetch(this.SIGNUP_URL, {
       method: 'POST',
@@ -56,16 +62,23 @@ export class SignupComponent implements OnInit {
     }).then((res) => {
       if (res.ok) {
         return res.json();
-      } else {
-        res.json().then((error) => {
-          this.errorMsg = error.message;
-          throw new Error(error.message);
-        })
       }
+      return res.json().then((error) => {
+        this.errorMsg = error.message;
+        throw new Error(error.message);
+      })
     }).then((user) => {
-      console.log(user, 'user created')
+      console.log(user, 'use hair')
+      setTimeout(() => {
+        this.signingUp = false;
+        this.router.navigate(['/login'])
+      }, 1000)
     }).catch((error) => {
-      this.errorMsg = error.message;
+      console.log(error, 'air hair')
+      setTimeout(() => {
+        this.signingUp = false;
+        this.errorMsg = error.message;
+      }, 1000)
     })
   }
 
