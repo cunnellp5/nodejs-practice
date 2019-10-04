@@ -1,6 +1,7 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = require('./../db/connection');
 const users = db.get('users');
@@ -80,7 +81,25 @@ router.post('/login', (req, res, next) => {
                     .then((result) => {
                         if (result) {
                             // its the right password
-                            res.json({result})
+                            const payload = {
+                                _id: user._id,
+                                username: user.username
+                            }
+                            jwt.sign(
+                                payload,
+                                process.env.TOKEN_SECRET, {
+                                expiresIn: '1d'
+                            },
+                                (err, token) => {
+                                    if (err) {
+                                        showError(res, next);
+                                    } else {
+                                        // login all good
+                                        res.json({token})
+                                    }
+                                }
+                            );
+
                         } else {
                             // wrong password
                             showError(res, next)
