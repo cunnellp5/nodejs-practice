@@ -65,4 +65,41 @@ router.post('/signup', (req, res, next) => {
     }
 })
 
+
+router.post('/login', (req, res, next) => {
+    const result = schema.validate(req.body);
+    if (!result.error) {
+        // if user does exist
+        users.findOne({
+            username: req.body.username
+        }).then((user) => {
+            // if user exists, compare hashed password
+            if (user) {
+                bcrypt
+                    .compare(req.body.password, user.password)
+                    .then((result) => {
+                        if (result) {
+                            // its the right password
+                            res.json({result})
+                        } else {
+                            // wrong password
+                            showError(res, next)
+                        }
+                    })
+            } else {
+                showError(res, next)
+            }
+        })
+    } else {
+        // this is if the user doesnt exist
+        showError(res, next)
+    }
+})
+
+function showError(res, next) {
+    res.status(422);
+    const error = new Error('Unable to login');
+    next(error)
+}
+
 module.exports = router;
