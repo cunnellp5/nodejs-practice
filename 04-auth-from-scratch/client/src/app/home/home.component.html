@@ -1,14 +1,28 @@
-    <div class="jumbotron text-center">
-        <h1 class="display-3">Authentication app</h1>
-        <p class="lead">learning auth is fun.</p>
-        <hr class="my-4">
-        <p>using cjs coding garden</p>
-        <p class="lead">
-          <a 
-          class="btn btn-primary btn-lg" 
-          href="#" 
-          role="button"
-          [routerLink]="['/signup']"
-          >Sign Up</a>
-        </p>
-    </div>
+
+<div class="text-center spinner" *ngIf="navigating">
+  <img src="../../assets/pacman.svg" alt="">
+</div>
+
+<div *ngIf="!navigating" class="jumbotron text-center">
+  <h1 class="display-3">Authentication app</h1>
+  <p class="lead">learning auth is fun.</p>
+  <hr class="my-4">
+  <p>using cjs coding garden</p>
+
+  <p class="lead">
+      <a 
+        class="btn btn-primary btn-lg" 
+        href="#" 
+        role="button"
+        (click)="navigate('signup')"
+      >Sign Up
+      </a>
+      <a 
+        class="btn btn-info btn-lg ml-2" 
+        href="#" 
+        role="button"
+        (click)="navigate('login')"
+      >Login
+      </a>
+  </p>
+</div>

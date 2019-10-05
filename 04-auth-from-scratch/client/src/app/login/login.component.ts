@@ -29,38 +29,38 @@ export class LoginComponent {
   ) { }
 
   login(e) {
-    console.log(e,'preventdefault')
-    e.preventDefault();
-    this.errorMsg = '';
-    const formData = {
-      username: this.loginForm.controls['username'].value,
-      password: this.loginForm.controls['password'].value
-    }
-    this.loggingIn = true;
-
-    fetch(this.LOGIN_URL, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: { 'content-type': 'application/json' }
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
+      e.preventDefault();
+      this.errorMsg = '';
+      const formData = {
+          username: this.loginForm.controls['username'].value,
+          password: this.loginForm.controls['password'].value
       }
-      return res.json().then((error) => {
-        this.errorMsg = error.message;
-        throw new Error(error.message);
+      this.loggingIn = true;
+
+      fetch(this.LOGIN_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: { 'content-type': 'application/json' }
+      }).then((res) => {
+          if (res.ok) {
+              return res.json();
+          }
+          return res.json().then((error) => {
+              this.errorMsg = error.message;
+              throw new Error(error.message);
+          })
+      }).then((result) => {
+          setTimeout(() => {
+              this.loggingIn = false;
+              localStorage.token = result.token
+              this.router.navigate(['/dashboard'])
+          }, 1000)
+      }).catch((error) => {
+          setTimeout(() => {
+              this.loggingIn = false;
+              this.errorMsg = error.message;
+          }, 1000)
       })
-    }).then((user) => {
-      setTimeout(() => {
-        this.loggingIn = false;
-        this.router.navigate(['/dashboard'])
-      }, 1000)
-    }).catch((error) => {
-      setTimeout(() => {
-        this.loggingIn = false;
-        this.errorMsg = error.message;
-      }, 1000)
-    })
   }
 
 }

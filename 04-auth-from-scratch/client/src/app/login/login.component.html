@@ -1,4 +1,4 @@
-<div id="spinner" class="text-center" *ngIf="loggingIn">
+<div class="text-center spinner" *ngIf="loggingIn">
     <img src="../../assets/pacman.svg" alt="">
 </div>
 <form
@@ -47,7 +47,7 @@
             Enter password to login.
         </small>
 
-        <div *ngIf="signupForm?.controls['password']?.errors && !signupForm?.controls['password']?.pristine" class="alert alert-danger" role="alert">
+        <div *ngIf="loginForm?.controls['password']?.errors && !loginForm?.controls['password']?.pristine" class="alert alert-danger" role="alert">
             Password is invalid.
         </div>
     </div>
@@ -58,5 +58,12 @@
         [disabled]="loginForm?.invalid"
         >
         Submit
+    </button>
+    <button 
+        type="button" 
+        class="btn btn-secondary ml-2"
+        [routerLink]="['../signup']"
+        >
+        Signup
     </button>
 </form>
