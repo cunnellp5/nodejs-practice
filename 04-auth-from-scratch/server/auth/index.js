@@ -51,7 +51,6 @@ router.post('/signup', (req, res, next) => {
                         username: req.body.username,
                         password: hashed
                     }
-
                     users.insert(newUser).then((insertedUser) => {
                         delete insertedUser.password;
                         res.json({insertedUser})
@@ -99,7 +98,6 @@ router.post('/login', (req, res, next) => {
                                     }
                                 }
                             );
-
                         } else {
                             // wrong password
                             showError(res, next)

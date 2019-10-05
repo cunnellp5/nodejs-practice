@@ -1,10 +1,8 @@
-
-
 #spinner {
     position: relative;
     animation-timing-function: ease-in-out;
     -webkit-animation-timing-function: ease-in-out;
-    animation: slide 3s steps(500) infinite;
+    animation: slide 2s steps(500) infinite;
 }
 
 @keyframes slide {

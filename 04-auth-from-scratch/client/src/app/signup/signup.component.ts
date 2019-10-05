@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
   
 
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   SIGNUP_URL = 'http://localhost:5000/auth/signup';
   signingUp: boolean = false
 
@@ -37,15 +37,8 @@ export class SignupComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
-
-  }
-
-  ngOnChanges() {
-
-  }
-
-  onSubmit() {
+  onSubmit(e) {
+    e.preventDefault();
     this.errorMsg = '';
     const formData = {
       username: this.signupForm.controls['username'].value,
@@ -68,13 +61,11 @@ export class SignupComponent implements OnInit {
         throw new Error(error.message);
       })
     }).then((user) => {
-      console.log(user, 'use hair')
       setTimeout(() => {
         this.signingUp = false;
         this.router.navigate(['/login'])
       }, 1000)
     }).catch((error) => {
-      console.log(error, 'air hair')
       setTimeout(() => {
         this.signingUp = false;
         this.errorMsg = error.message;

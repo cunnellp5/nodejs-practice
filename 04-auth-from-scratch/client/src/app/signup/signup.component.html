@@ -4,7 +4,7 @@
 
 <form 
     *ngIf="!signingUp"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSubmit($event)"
     [formGroup]="signupForm"
     >
     <div class="form-group">
