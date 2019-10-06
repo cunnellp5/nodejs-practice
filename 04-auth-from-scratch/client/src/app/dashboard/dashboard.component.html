@@ -1,1 +1,8 @@
-<p>dashboard works!</p>
+<p>Dashboard works!</p>
+<p>{{ user ? 'hello ' + user.username : 'getting user info' }}</p>
+
+<button 
+    class="btn btn-primary btn-lg" 
+    (click)="logout()">
+    logout
+</button>
