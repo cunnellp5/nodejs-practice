@@ -17,6 +17,7 @@ const schema = Joi.object({
         .required(),
  
     password: Joi.string()
+        .trim()
         .min(10)
         .required()
 
