@@ -13,7 +13,13 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.json([]);
+    // find notes with at current users id
+    notes.find({
+        user_id: req.user._id
+    }).then((notes) => {
+        // respond with user specific notes!
+        res.json(notes);
+    })
 })
 
 router.post('/', (req, res, next) => {
