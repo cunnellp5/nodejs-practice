@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,9 @@ export class DashboardComponent implements OnInit {
     note: new FormControl('')
   });
 
-  constructor( private router: Router ) { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     fetch(this.API_URL, {
@@ -29,7 +32,8 @@ export class DashboardComponent implements OnInit {
       .then(res => res.json())
       .then((result) => {
           if (result.user) {
-              this.user = result.user
+            this.user = result.user
+            this.getNotes();
           } else {
             this.logout();
           }
@@ -41,8 +45,18 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  getNotes() {
+    fetch(`${this.API_URL}/api/v1/notes`, {
+      headers: {
+        authorization: `Bearer ${localStorage.token}`,
+      }
+    }).then((res) => res.json())
+      .then((notes) => {
+      this.notes = notes
+    })
+  }
+
   addNote(e) {
-    
     e.preventDefault();
     fetch(`${this.API_URL}/api/v1/notes`, {
         method: 'post',
@@ -58,7 +72,6 @@ export class DashboardComponent implements OnInit {
         this.showForm = false;
         this.notes.push(note);
     })
-
   }
 
 }

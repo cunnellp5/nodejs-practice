@@ -59,12 +59,14 @@
     </button>
 </form>
 
-<!-- 
-<div class="card border-info mb-3 mt-2" style="max-width: 20rem;">
-    <div class="card-header">Header</div>
-    <div class="card-body">
-        <h4 class="card-title">Info card title</h4>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<section class="row mt-3">
+    <div class="col-6" *ngFor="let note of notes">
+        <div class="card border-info mb-3">
+            <h2 class="card-header">{{ note.title }}</h2>
+            <div class="card-body">
+                <p markdown ngPreserveWhitespaces class="card-text">{{ note.note }}</p>
+            </div>
+        </div>
     </div>
-</div> -->
+</section>
 
