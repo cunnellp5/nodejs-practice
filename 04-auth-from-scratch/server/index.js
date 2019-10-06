@@ -7,6 +7,7 @@ require('dotenv').config();
 const app = express();
 const middleware = require('./auth/middleware');
 const auth = require('./auth');
+const notes = require('./api/notes');
 
 app.use(volleyball);
 app.use(cors({
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
+app.use('/api/v1/notes', middleware.isLoggedIn, notes);
 
 function notFound(req, res, next) {
     res.status(404);
