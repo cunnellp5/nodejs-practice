@@ -38,39 +38,40 @@ export class SignupComponent {
   ) { }
 
   onSubmit(e) {
-    e.preventDefault();
-    this.errorMsg = '';
-    const formData = {
-      username: this.signupForm.controls['username'].value,
-      password: this.signupForm.controls['password'].value
-    }
-    this.signingUp = true;
-
-    fetch(this.SIGNUP_URL, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'content-type': 'application/json',
+      e.preventDefault();
+      this.errorMsg = '';
+      const formData = {
+          username: this.signupForm.controls['username'].value,
+          password: this.signupForm.controls['password'].value
       }
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return res.json().then((error) => {
-        this.errorMsg = error.message;
-        throw new Error(error.message);
+      this.signingUp = true;
+      fetch(this.SIGNUP_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+              'content-type': 'application/json',
+          }
+      }).then((res) => {
+          if (res.ok) {
+             return res.json();
+          }
+          return res.json().then((error) => {
+              this.errorMsg = error.message;
+              throw new Error(error.message);
+          })
+      }).then((result) => {
+        console.log(result, 'checkme')
+          localStorage.token = result.token; 
+          setTimeout(() => {
+              this.signingUp = false;
+              this.router.navigate(['/dashboard'])
+          }, 1000)
+      }).catch((error) => {
+          setTimeout(() => {
+              this.signingUp = false;
+              this.errorMsg = error.message;
+          }, 1000)
       })
-    }).then((user) => {
-      setTimeout(() => {
-        this.signingUp = false;
-        this.router.navigate(['/login'])
-      }, 1000)
-    }).catch((error) => {
-      setTimeout(() => {
-        this.signingUp = false;
-        this.errorMsg = error.message;
-      }, 1000)
-    })
   }
 
   passwordMatchValidator(g: FormGroup) {

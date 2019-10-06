@@ -52,8 +52,9 @@ router.post('/signup', (req, res, next) => {
                         password: hashed
                     }
                     users.insert(newUser).then((insertedUser) => {
-                        delete insertedUser.password;
-                        res.json({insertedUser})
+                        // delete insertedUser.password;
+                        // res.json({insertedUser})
+                        createTokenSendResponse(insertedUser, res, next)
                     })
                 })
             }
@@ -80,24 +81,7 @@ router.post('/login', (req, res, next) => {
                     .then((result) => {
                         if (result) {
                             // its the right password
-                            const payload = {
-                                _id: user._id,
-                                username: user.username
-                            }
-                            jwt.sign(
-                                payload,
-                                process.env.TOKEN_SECRET, {
-                                expiresIn: '1d'
-                            },
-                                (err, token) => {
-                                    if (err) {
-                                        showError(res, next);
-                                    } else {
-                                        // login all good
-                                        res.json({token})
-                                    }
-                                }
-                            );
+                            createTokenSendResponse(user, res, next);
                         } else {
                             // wrong password
                             showError(res, next)
@@ -117,6 +101,25 @@ function showError(res, next) {
     res.status(422);
     const error = new Error('Unable to login');
     next(error)
+}
+
+function createTokenSendResponse(user, res, next) {
+    const payload = {
+        _id: user._id,
+        username: user.username
+    }
+    jwt.sign(
+        payload,
+        process.env.TOKEN_SECRET, {
+        expiresIn: '1h'
+    }, (err, token) => {
+        if (err) {
+            showError(res, next);
+        } else {
+            // login all good
+            res.json({token})
+        }
+    });
 }
 
 module.exports = router;
