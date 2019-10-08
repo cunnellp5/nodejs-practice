@@ -50,11 +50,11 @@ router.post('/signup', (req, res, next) => {
                 bcrypt.hash(req.body.password, 12).then((hashed) => {
                     const newUser = {
                         username: req.body.username,
-                        password: hashed
+                        password: hashed,
+                        role: 'user',
+                        active: true
                     }
                     users.insert(newUser).then((insertedUser) => {
-                        // delete insertedUser.password;
-                        // res.json({insertedUser})
                         createTokenSendResponse(insertedUser, res, next)
                     })
                 })
@@ -73,10 +73,10 @@ router.post('/login', (req, res, next) => {
     if (!result.error) {
         // if user does exist
         users.findOne({
-            username: req.body.username
+            username: req.body.username,
         }).then((user) => {
             // if user exists, compare hashed password
-            if (user) {
+            if (user && user.active) {
                 bcrypt
                     .compare(req.body.password, user.password)
                     .then((result) => {
@@ -107,7 +107,9 @@ function showError(res, next) {
 function createTokenSendResponse(user, res, next) {
     const payload = {
         _id: user._id,
-        username: user.username
+        username: user.username,
+        role: user.role,
+        active: user.active
     }
     jwt.sign(
         payload,

@@ -12,14 +12,14 @@ const schema = Joi.object({
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     // find notes with at current users id
     notes.find({
         user_id: req.user._id
     }).then((notes) => {
         // respond with user specific notes!
         res.json(notes);
-    })
+    }).catch(next);
 })
 
 router.post('/', (req, res, next) => {
