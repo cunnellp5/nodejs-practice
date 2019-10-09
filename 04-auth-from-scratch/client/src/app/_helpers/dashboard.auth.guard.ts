@@ -12,7 +12,7 @@ export class DashboardRedirect implements CanActivate {
         private router: Router,
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot) {
+    canActivate() {
         if (!localStorage.token) {
             this.router.navigate(['/login']);
             return true;

@@ -26,9 +26,21 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use('/auth', auth);
-app.use('/api/v1/notes', middleware.isLoggedIn, notes);
-app.use('/api/v1/users', middleware.isLoggedIn, middleware.isAdmin, users);
+app.use(
+    '/auth',
+    auth
+);
+app.use(
+    '/api/v1/notes',
+    middleware.isLoggedIn,
+    notes
+);
+app.use(
+    '/api/v1/users',
+    middleware.isLoggedIn,
+    middleware.isAdmin,
+    users
+);
 
 function notFound(req, res, next) {
     res.status(404);
