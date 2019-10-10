@@ -1,1 +1,27 @@
-<p>admin works!</p>
+<p>All users</p>
+
+
+<table class="table table-secondary">
+    <thead>
+      <tr>
+        <th scope="col">Index</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Active</th>
+        <th scope="col">Deactivate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-active" *ngFor="let user of users; let i = index">
+        <th scope="row">{{i}}</th>
+        <td>{{user.username}}</td>
+        <td>{{user.role}}</td>
+        <td>{{user.active}}</td>
+        <td>
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-warning">Deactivate</button>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table> 

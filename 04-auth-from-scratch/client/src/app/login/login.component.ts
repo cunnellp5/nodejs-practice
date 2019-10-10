@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   LOGIN_URL = 'http://localhost:5000/auth/login';
+  helper = new JwtHelperService();
   loginForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -51,9 +53,14 @@ export class LoginComponent {
           })
       }).then((result) => {
           setTimeout(() => {
-              this.loggingIn = false;
-              localStorage.token = result.token
+            this.loggingIn = false;
+            localStorage.token = result.token
+            let isAdmin = this.helper.decodeToken(localStorage.token).role === 'admin';
+            if (isAdmin) {
+              this.router.navigate(['/admin'])
+            } else {
               this.router.navigate(['/dashboard'])
+            }
           }, 1000)
       }).catch((error) => {
           setTimeout(() => {

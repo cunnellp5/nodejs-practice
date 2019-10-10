@@ -6,7 +6,6 @@ import { LoginComponent } from './login/login.component';
 import { LoggedInTokenRedirect } from './_helpers/login-redirect.auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardRedirect } from './_helpers/dashboard.auth.guard';
-import { AdminCheck } from './_helpers/admin-check.auth.guard';
 import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
