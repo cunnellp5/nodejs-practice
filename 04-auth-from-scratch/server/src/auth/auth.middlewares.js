@@ -58,15 +58,20 @@ const validateUser = (defaultErrorMessage = '') => (req, res, next) => {
 }; 
 
 const findUser = (defaultLoginError, isError, errorCode = 422) => async (req, res, next) => {
-  const user = await users.findOne({
-    username: req.body.username,
-  });
-  if (isError(user)) {
-    res.status(errorCode);
-    next(new Error(defaultLoginError));
-  } else {
-    req.loggingInUser = user;
-    next();
+  try {
+    const user = await users.findOne({
+      username: req.body.username,
+    });
+    if (isError(user)) {
+      res.status(errorCode);
+      next(new Error(defaultLoginError));
+    } else {
+      req.loggingInUser = user;
+      next();
+    }
+  } catch (error) {
+    res.status(500);
+    next(error);
   }
 };
 

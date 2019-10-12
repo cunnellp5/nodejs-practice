@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const users = require('./auth.model');
 
-function createTokenSendResponse(user, res, next) {
+const createTokenSendResponse = (user, res, next) => {
   const payload = {
     _id: user._id,
     username: user.username,
@@ -20,12 +20,12 @@ function createTokenSendResponse(user, res, next) {
         const error = Error('Unable to login');
         next(error);
       } else {
-        // login all good
+      // login all good
         res.json({ token });
       }
     },
   );
-}
+};
 
 const get = (req, res) => {
   res.json({

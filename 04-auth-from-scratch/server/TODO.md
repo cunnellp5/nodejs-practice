@@ -37,3 +37,5 @@ stretch?
 * [] storing token in a cookie
 * [] refresh tokens
 * [] pre commit hook
+
+mongo://username:password@cluster0-lpxdr.mongodb.net/test
