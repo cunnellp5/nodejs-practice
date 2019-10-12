@@ -17,3 +17,23 @@
 * [ ] Restrict POST /api/v1/users to only users with admin role
     * Create a user
 * [x] Prevent inactive users from logging in
+
+## Backend Admin pt2
+
+* [x] set up tests: mocha, chai, & super test
+    * [] create a test db
+* [x] setup linter file
+* [] MVC folder structure
+    * [] folder by feature
+        * [] controller file
+        * [] modle file for validations and query logic
+        * [] routes file for basic descriptions for express routes
+        * [] test file inside each folder
+* [] refactor some of the routes in to middle wares
+* [] deploy!
+    * [] run the admin seed on deploy
+
+stretch? 
+* [] storing token in a cookie
+* [] refresh tokens
+* [] pre commit hook

@@ -13,7 +13,7 @@
 ## Admin Page:
 ---
 
-* [ ] Admin page that lists all users
+* [X] Admin page that lists all users
  * [ ] admin table with user_id
  * [ ] de-activate users
 * [ ] Admin can see any page on site
