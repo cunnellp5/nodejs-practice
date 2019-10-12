@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+const schema = require('./auth.schema');
+const users = require('./auth.model');
+
 function checkTokenSetUser(req, res, next) {
   const authHeader = req.get('Authorization');
   if (authHeader) {
@@ -43,8 +46,34 @@ function unAuthorized(res, next) {
   next(error);
 }
 
+const validateUser = (defaultErrorMessage = '') => (req, res, next) => {
+  const result = schema.validate(req.body);
+  if (!result.error) {
+    next();
+  } else {
+    const error = defaultErrorMessage ? new Error(defaultErrorMessage) : result.error;
+    res.status(422);
+    next(error);
+  }
+}; 
+
+const findUser = (defaultLoginError, isError, errorCode = 422) => async (req, res, next) => {
+  const user = await users.findOne({
+    username: req.body.username,
+  });
+  if (isError(user)) {
+    res.status(errorCode);
+    next(new Error(defaultLoginError));
+  } else {
+    req.loggingInUser = user;
+    next();
+  }
+};
+
 module.exports = {
   checkTokenSetUser,
   isLoggedIn,
   isAdmin,
+  validateUser,
+  findUser,
 };

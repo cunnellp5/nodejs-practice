@@ -21,15 +21,15 @@
 ## Backend Admin pt2
 
 * [x] set up tests: mocha, chai, & super test
-    * [] create a test db
+    * [x] create a test db
 * [x] setup linter file
 * [] MVC folder structure
-    * [] folder by feature
-        * [] controller file
-        * [] modle file for validations and query logic
-        * [] routes file for basic descriptions for express routes
-        * [] test file inside each folder
-* [] refactor some of the routes in to middle wares
+    * [x] folder by feature
+        * [x] controller file
+        * [x] model file for validations and query logic
+        * [x] routes file for basic descriptions for express routes
+        * [x] test file inside each folder
+* [x] refactor some of the routes in to middle wares
 * [] deploy!
     * [] run the admin seed on deploy
 
