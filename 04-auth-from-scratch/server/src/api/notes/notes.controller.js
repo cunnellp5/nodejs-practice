@@ -1,29 +1,17 @@
-const express = require('express');
-const Joi = require('@hapi/joi');
-
-const db = require('./../db/connection');
+const db = require('../../db/connection');
 
 const notes = db.get('notes');
+const schema = require('./notes.schema');
 
-const schema = Joi.object({
-  title: Joi.string().trim().max(100).required(),
-  note: Joi.string().trim().required(),
-});
-
-const router = express.Router();
-
-
-router.get('/', (req, res, next) => {
-  // find notes with at current users id
+const get = (req, res, next) => {
   notes.find({
     user_id: req.user._id,
   }).then((results) => {
-    // respond with user specific results!
     res.json(results);
   }).catch(next);
-});
+};
 
-router.post('/', (req, res, next) => {
+const createNote = (req, res, next) => {
   const result = schema.validate(req.body);
   if (!result.error) {
     // create foreign key!
@@ -42,6 +30,9 @@ router.post('/', (req, res, next) => {
     res.status(422);
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  get,
+  createNote,
+};

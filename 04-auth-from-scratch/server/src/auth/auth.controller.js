@@ -20,7 +20,6 @@ const createTokenSendResponse = (user, res, next) => {
         const error = Error('Unable to login');
         next(error);
       } else {
-      // login all good
         res.json({ token });
       }
     },

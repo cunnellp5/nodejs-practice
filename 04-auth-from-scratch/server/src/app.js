@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 const middleware = require('./auth/auth.middlewares');
 const auth = require('./auth/auth.routes');
-const notes = require('./api/notes');
+const notes = require('./api/notes/notes.routes');
 const users = require('./api/users');
 
 app.use(volleyball);
