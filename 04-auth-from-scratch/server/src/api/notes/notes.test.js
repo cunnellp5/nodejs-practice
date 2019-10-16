@@ -7,10 +7,9 @@ const db = require('./../../db/connection');
 const users = db.get('users');
 const notes = db.get('notes');
 
-const loggedInUser = {
-  username: 'test',
-  password: '12345678890',
-  _id: 2,
+const newUser = {
+  username: 'testuser',
+  password: '12345678900',
 };
 
 const note = {
@@ -19,19 +18,6 @@ const note = {
 };
 
 describe('GET notes /api/v1/notes', () => {
-  before(async () => {
-    await users.remove({});
-    await notes.remove({});
-    await users.insert({
-      username: loggedInUser.username,
-      password: loggedInUser.password,
-    });
-    await notes.insert({
-      title: note.title,
-      note: note.note,
-    });
-  });
-
   it('should respond with unauthorized if no user exists', async () => {
     const response = await request(app)
       .get('/api/v1/notes')
@@ -39,10 +25,33 @@ describe('GET notes /api/v1/notes', () => {
     expect(response.body.message).to.equal('🚫 Un-Authorized 🚫');
   });
 
-  it('should return notes if a user is signed in', async () => {
+  it('should respond with unauthorized if no password', async () => {
     const response = await request(app)
       .get('/api/v1/notes')
-      .expect(200);
-    expect(response.body).to.have('results');
+      .send({ username: 'testuser' })
+      .expect(401);
+    expect(response.body.message).to.equal('🚫 Un-Authorized 🚫');
   });
-});
+
+
+  it('should create a note if a user is signed in', async () => {
+    await users.remove({});
+
+    const signup = await request(app)
+      .post('/auth/signup')
+      .send(newUser)
+      .expect(200);
+    
+    expect(signup.body).to.have.property('token');
+    const token = signup.body.token;
+    
+    const createNote = await request(app)
+      .post('/api/v1/notes')
+      .send(note)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(createNote.body.title).to.equal('hello')
+    expect(createNote.body.note).to.equal('world')
+  });
+})

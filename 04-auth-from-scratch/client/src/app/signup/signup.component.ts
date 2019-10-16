@@ -60,7 +60,6 @@ export class SignupComponent {
               throw new Error(error.message);
           })
       }).then((result) => {
-        console.log(result, 'checkme')
           localStorage.token = result.token; 
           setTimeout(() => {
               this.signingUp = false;
