@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
-const db = require('../db/connection');
+const db = require('./../../db/connection');
 
 const users = db.get('users');
 const schema = Joi.object({
