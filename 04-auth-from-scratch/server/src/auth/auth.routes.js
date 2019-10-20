@@ -19,7 +19,10 @@ router.post(
 router.post(
   '/login',
   middlewares.validateUser(defaultLoginError),
-  middlewares.findUser(defaultLoginError, (user) => !(user && user.active)),
+  middlewares.findUser(
+    defaultLoginError,
+    (user) => !(user && user.active)
+  ),
   controller.login,
 );
 

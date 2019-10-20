@@ -9,7 +9,7 @@ const app = express();
 const middleware = require('./auth/auth.middlewares');
 const auth = require('./auth/auth.routes');
 const notes = require('./api/notes/notes.routes');
-const users = require('./api/users/users');
+const users = require('./api/users/users.routes');
 
 app.use(volleyball);
 app.use(cors({
