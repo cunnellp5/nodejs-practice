@@ -14,7 +14,6 @@ const get = (req, res, next) => {
 const createNote = (req, res, next) => {
   const result = schema.validate(req.body);
   if (!result.error) {
-    // create foreign key!
     const note = {
       ...req.body,
       user_id: req.user._id,
@@ -32,7 +31,17 @@ const createNote = (req, res, next) => {
   }
 };
 
+const deleteNote = (req, res, next) => {
+  notes.findOneAndDelete({
+    title: req.body.title
+  })
+    .then((results) => { 
+      res.json(results, 'deleted??')
+    })
+}
+
 module.exports = {
   get,
   createNote,
+  deleteNote
 };
