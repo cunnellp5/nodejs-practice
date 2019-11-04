@@ -33,11 +33,17 @@ const createNote = (req, res, next) => {
 
 const deleteNote = (req, res, next) => {
   notes.findOneAndDelete({
-    title: req.body.title
+    _id: req.params.id
   })
     .then((results) => { 
       res.json(results, 'deleted??')
+    }).catch((err) => {
+      const error = new Error(result.error);
+      res.status(422);
+      next(error);
     })
+  
+  
 }
 
 module.exports = {
