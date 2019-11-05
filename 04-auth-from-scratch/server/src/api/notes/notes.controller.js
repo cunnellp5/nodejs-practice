@@ -35,8 +35,8 @@ const deleteNote = (req, res, next) => {
   notes.findOneAndDelete({
     _id: req.params.id
   })
-    .then((results) => { 
-      res.json(results, 'deleted??')
+    .then(() => { 
+      res.json('deleted??')
     }).catch((err) => {
       const error = new Error(result.error);
       res.status(422);

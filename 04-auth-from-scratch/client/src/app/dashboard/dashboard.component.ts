@@ -74,4 +74,19 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  delete(id) {
+    // get id some how
+    fetch(`${this.API_URL}/api/v1/notes/${id}`, {
+      method: 'delete',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.token}`,
+      }
+    })
+      .then(res => res.json)
+      .then(() => {
+        this.getNotes();
+    })
+  }
+
 }
