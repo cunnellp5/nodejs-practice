@@ -1,4 +1,4 @@
-<h1>Dashboard works!</h1>
+<h1>Dashboard</h1>
 <p>{{ user ? 'hello ' + user.username : 'getting user info' }}</p>
 
 <div class="btn-group-justified btn-group-sm btn-group-vertical">
@@ -64,6 +64,7 @@
         <div class="card border-info mb-3">
             <div class="card-header">
                 <div class="float-right">
+                    <!-- <button (click)="edit(note._id)" class="badge badge-pill badge-info">E</button> -->
                     <button (click)="delete(note._id)" class="badge badge-pill badge-danger">X</button>
                 </div>
                 <h2>{{ note.title }}</h2>

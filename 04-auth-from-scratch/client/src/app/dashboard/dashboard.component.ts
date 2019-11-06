@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, PatternValidator } from '@angular/forms';
+import { API_URL } from '../_constants/constants';
+import { NotesService } from '../_services/notes.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +11,6 @@ import { FormGroup, FormControl } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  API_URL = 'http://localhost:5000';
   user = null;
   showForm = true;
   notes = [];
@@ -20,17 +21,19 @@ export class DashboardComponent implements OnInit {
   });
 
   constructor(
-    private router: Router
+    private router: Router,
+    private notesService: NotesService
   ) { }
 
   ngOnInit() {
-    fetch(this.API_URL, {
+    fetch(API_URL, {
         headers: {
           authorization: `Bearer ${localStorage.token}`,
         }
     })
       .then(res => res.json())
       .then((result) => {
+        console.log(result, 'WHICH RESULT')
           if (result.user) {
             this.user = result.user
             this.getNotes();
@@ -46,27 +49,17 @@ export class DashboardComponent implements OnInit {
   }
 
   getNotes() {
-    fetch(`${this.API_URL}/api/v1/notes`, {
-      headers: {
-        authorization: `Bearer ${localStorage.token}`,
-      }
-    }).then((res) => res.json())
-      .then((notes) => {
-      this.notes = notes
-    })
+    this.notesService
+      .getNotes()
+      .then((res) => {
+        this.notes = res;
+      })
   }
 
   addNote(e) {
     e.preventDefault();
-    fetch(`${this.API_URL}/api/v1/notes`, {
-        method: 'post',
-        body: JSON.stringify(this.noteForm.getRawValue()),
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${localStorage.token}`,
-        }
-    })
-    .then(res => res.json())
+    this.notesService
+      .addNote(this.noteForm)
       .then((note) => {
         this.noteForm.reset();
         this.showForm = false;
@@ -75,18 +68,11 @@ export class DashboardComponent implements OnInit {
   }
 
   delete(id) {
-    // get id some how
-    fetch(`${this.API_URL}/api/v1/notes/${id}`, {
-      method: 'delete',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${localStorage.token}`,
-      }
-    })
-      .then(res => res.json)
+    this.notesService
+      .deleteNote(id)
       .then(() => {
-        this.getNotes();
-    })
+        this.getNotes()
+      })
   }
 
 }

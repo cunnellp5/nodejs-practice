@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AdminComponent } from './admin/admin.component';
 
+import { NotesService } from './_services/notes.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,7 @@ import { AdminComponent } from './admin/admin.component';
     ReactiveFormsModule,
     MarkdownModule.forRoot()
   ],
-  providers: [],
+  providers: [NotesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
