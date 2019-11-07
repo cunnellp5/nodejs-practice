@@ -12,6 +12,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AdminComponent } from './admin/admin.component';
 
 import { NotesService } from './_services/notes.service';
+import { UsersService } from './_services/users.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { NotesService } from './_services/notes.service';
     ReactiveFormsModule,
     MarkdownModule.forRoot()
   ],
-  providers: [NotesService],
+  providers: [NotesService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

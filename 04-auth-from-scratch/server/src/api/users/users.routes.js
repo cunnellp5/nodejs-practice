@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/', controller.list);
 router.patch('/:id', controller.updateOne);
+// router.patch('/:id', controller.deactivateUser);
 
 module.exports = router;

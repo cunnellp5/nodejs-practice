@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../_services/users.service';
 
 @Component({
   selector: 'app-admin',
@@ -6,20 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  GET_ALL_USERS_URL = 'http://localhost:5000';
   users: any;
 
-  constructor() { }
+  constructor(
+    private usersService: UsersService
+  ) { }
 
   ngOnInit() {
-    fetch(`${this.GET_ALL_USERS_URL}/api/v1/users`, {
-      headers: {
-        authorization: `Bearer ${localStorage.token}`
-      }
-    }).then((res) => res.json())
+    this.usersService
+      .getAllUsers()
       .then((users) => {
         this.users = users;
-    })
+      })
+  }
+
+  deactivateUser(user) {
+    this.usersService
+      .deactivateUser(user)
+      .then((res) => {
+        console.log(res, 'res')
+      })
   }
 
 }

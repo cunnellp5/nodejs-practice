@@ -19,7 +19,12 @@
         <td>{{user.active}}</td>
         <td>
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" class="btn btn-warning">Deactivate</button>
+                <button 
+                  (click)="deactivateUser(user)" 
+                  type="button" 
+                  class="btn btn-warning">
+                  Deactivate
+                </button>
             </div>
         </td>
       </tr>
