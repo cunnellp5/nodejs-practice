@@ -13,6 +13,7 @@ import { AdminComponent } from './admin/admin.component';
 
 import { NotesService } from './_services/notes.service';
 import { UsersService } from './_services/users.service';
+import { AuthService } from './_services/auth.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { UsersService } from './_services/users.service';
     ReactiveFormsModule,
     MarkdownModule.forRoot()
   ],
-  providers: [NotesService, UsersService],
+  providers: [NotesService, UsersService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
